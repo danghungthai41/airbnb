@@ -1,0 +1,9 @@
+App:
+  Port: 4000
+  Mode: development
+Mysql:
+  Port: 3307
+  Host: 127.0.0.1
+  User: root
+  Password: 1234
+  DBName: airbnb-golang
