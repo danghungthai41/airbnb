@@ -16,6 +16,7 @@ type IPlaceUsecase interface {
 	GetPlaces(context.Context, *common.Paging, *placemodel.Filter) ([]placemodel.Place, error)
 	GetPlaceByID(context.Context, int) (*placemodel.Place, error)
 	DeletePlace(context.Context, int) error
+	UpdatePlace(context.Context, int, *placemodel.Place) error
 }
 
 type placeHandler struct {
@@ -97,4 +98,29 @@ func (hdl *placeHandler) DeletePlace() gin.HandlerFunc {
 		c.JSON(http.StatusBadRequest, gin.H{"data": true})
 
 	}
+}
+
+func (hdl *placeHandler) UpdatePlace() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var place placemodel.Place
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		if err := c.ShouldBind(&place); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		if err := hdl.placeUC.UpdatePlace(c.Request.Context(), id, &place); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusBadRequest, gin.H{"data": place})
+
+	}
+
 }

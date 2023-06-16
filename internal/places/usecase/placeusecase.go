@@ -11,6 +11,7 @@ type IPlaceRepository interface {
 	ListDataWithCondition(context.Context, *common.Paging, *placemodel.Filter) ([]placemodel.Place, error)
 	FindDataWithCondition(context.Context, map[string]any) (*placemodel.Place, error)
 	DeletePlace(context.Context, int) error
+	UpdatePlace(context.Context, map[string]any, *placemodel.Place) error
 }
 type placeUC struct {
 	placeRepo IPlaceRepository
@@ -52,6 +53,17 @@ func (uc *placeUC) GetPlaceByID(ctx context.Context, id int) (*placemodel.Place,
 
 func (uc *placeUC) DeletePlace(ctx context.Context, id int) error {
 	if err := uc.placeRepo.DeletePlace(ctx, id); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (uc *placeUC) UpdatePlace(ctx context.Context, id int, place *placemodel.Place) error {
+	_, err := uc.placeRepo.FindDataWithCondition(ctx, map[string]any{"id": id})
+	if err != nil {
+		return err
+	}
+	if err := uc.placeRepo.UpdatePlace(ctx, map[string]any{"id": id}, place); err != nil {
 		return err
 	}
 	return nil

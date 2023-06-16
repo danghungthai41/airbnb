@@ -62,3 +62,10 @@ func (r *placeRepo) DeletePlace(ctx context.Context, id int) error {
 	return nil
 
 }
+
+func (r *placeRepo) UpdatePlace(ctx context.Context, condition map[string]any, place *placemodel.Place) error {
+	if err := r.db.Table(place.TableName()).Where(condition).Updates(place).Error; err != nil {
+		return err
+	}
+	return nil
+}

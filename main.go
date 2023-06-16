@@ -40,6 +40,7 @@ func main() {
 		v1.GET("/places", placehdl.GetPlaces())
 		v1.GET("/places/:id", placehdl.GetPlaceByID())
 		v1.DELETE("/places/:id", placehdl.DeletePlace())
+		v1.PUT("/places/:id", placehdl.UpdatePlace())
 
 	}
 
