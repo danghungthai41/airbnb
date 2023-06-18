@@ -5,6 +5,10 @@ import (
 	placehttp "airbnb-golang/internal/places/delivery/http"
 	placerepository "airbnb-golang/internal/places/repository"
 	placeusecase "airbnb-golang/internal/places/usecase"
+
+	userhttp "airbnb-golang/internal/users/delivery/http"
+	userrepository "airbnb-golang/internal/users/repository"
+	userusecase "airbnb-golang/internal/users/usecase"
 	"airbnb-golang/pkg/db/mysql"
 	"fmt"
 	"log"
@@ -44,6 +48,12 @@ func main() {
 
 	}
 
+	userrepo := userrepository.NewUserRepo(db)
+	useruc := userusecase.NewUserUC(userrepo)
+	userhdl := userhttp.NewUserHanlder(useruc)
+	{
+		v1.POST("/users", userhdl.CreateUser())
+	}
 	r.Run(":" + cfg.App.Port)
 
 }
