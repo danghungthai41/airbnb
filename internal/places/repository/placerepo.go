@@ -17,7 +17,13 @@ func NewPlaceRepo(db *gorm.DB) *placeRepo {
 }
 
 func (r *placeRepo) Create(ctx context.Context, place *placemodel.Place) error {
-	if err := r.db.Table(place.TableName()).Create(&place).Error; err != nil {
+	db := r.db.Begin()
+	if err := db.Table(place.TableName()).Create(&place).Error; err != nil {
+		db.Rollback()
+		return err
+	}
+	if err := db.Commit().Error; err != nil {
+		db.Rollback()
 		return err
 	}
 	return nil

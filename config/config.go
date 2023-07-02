@@ -2,6 +2,7 @@ package config
 
 import (
 	"errors"
+
 	"github.com/spf13/viper"
 )
 
@@ -14,6 +15,7 @@ type AppConfig struct {
 	Port    string
 	Mode    string
 	Version string
+	Secret  string
 }
 type MySQLConfig struct {
 	Port     string

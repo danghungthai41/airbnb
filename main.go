@@ -49,10 +49,11 @@ func main() {
 	}
 
 	userrepo := userrepository.NewUserRepo(db)
-	useruc := userusecase.NewUserUC(userrepo)
+	useruc := userusecase.NewUserUC(cfg, userrepo)
 	userhdl := userhttp.NewUserHanlder(useruc)
 	{
-		v1.POST("/users", userhdl.CreateUser())
+		v1.POST("/register", userhdl.Register())
+		v1.POST("/login", userhdl.Login())
 	}
 	r.Run(":" + cfg.App.Port)
 

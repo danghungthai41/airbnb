@@ -3,7 +3,7 @@ package common
 type Paging struct {
 	Total int64 `json:"total" form:"total"`
 	Limit int   `json:"pageSize" form:"pageSize"`
-	Page  int   `json:"page" form:"page"`
+	Page  int   `json:"page,omitempty" form:"page"`
 }
 
 func (p *Paging) FullFill() {

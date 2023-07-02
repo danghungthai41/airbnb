@@ -1,10 +1,10 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id int NOT NULL AUTO_INCREMENT,
-    email varchar(50) NOT NULL,
-    password varchar(50) NOT NULL,
-    last_name varchar(50) NOT NULL,
-    first_name varchar(50) NOT NULL,
+    email varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    last_name varchar(255),
+    first_name varchar(255) ,
     phone varchar(20) DEFAULT NULL,
     role enum('guest', 'host', 'admin') NOT NULL DEFAULT 'guest',
     avatar json DEFAULT NULL,
